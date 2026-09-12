@@ -101,7 +101,7 @@ reporte = classification_report(
 
 print(reporte)
 
-# 2. Configurar la cuadrícula de visualización (por ejemplo, 15 imágenes: 3 filas x 5 columnas)
+# Configurar la cuadrícula de visualización (por ejemplo, 12 imágenes: 3 filas x 4 columnas)
 num_rows = 3
 num_cols = 4
 num_images = num_rows * num_cols
@@ -131,3 +131,28 @@ for i in range(num_images):
 plt.tight_layout(h_pad=1.5)
 plt.show()
 
+
+
+# uso de imagen especifica
+x_imagen = X_test[1]
+y_imagen = y_test[1]
+clase_imagen = clases[y_imagen] 
+
+
+predict_imagen = model.predict(x_imagen.reshape(1, 28, 28, 1))
+etiqueta_predicha = np.argmax(predict_imagen)
+
+if etiqueta_predicha == y_imagen:
+    print(f"La predicción es correcta: {clases[etiqueta_predicha]} ({etiqueta_predicha}), Real: {clases[y_imagen]} ({y_imagen})")
+else:
+    print(f"La predicción es incorrecta. Predicha: {clases[etiqueta_predicha]} ({etiqueta_predicha}), Real: {clases[y_imagen]} ({y_imagen})")
+
+
+plt.figure(figsize=(3, 3))
+plt.imshow(x_imagen.squeeze(), cmap="gray")
+plt.title(
+    f"Pred: {clases[etiqueta_predicha]} ({100 * np.max(predictions[1]):.1f}%)\nReal: {clases[y_imagen]} ({y_imagen})",
+    color="green" if etiqueta_predicha == y_imagen else "red"
+)
+plt.axis("off")
+plt.show()
